@@ -32,6 +32,18 @@ if ! getent group "${ROTATE_GROUP}" | grep "${ROTATE_USER}" &>/dev/null; then
     addgroup "${ROTATE_USER}" "${ROTATE_GROUP}"
 fi
 
+# Create a backup script, makes it easier to sudo
+cat << EOF > /backup-db.sh
+mysqldump \
+    -h "${DB_HOST}" \
+    -u ${DB_USER} \
+    -p"${DB_PASSWORD}" \
+    ${MYSQLDUMP_OPTIONS} \
+    "${DB_NAME}" \
+    | gzip > "/backup/${DB_NAME}.sql.gz"
+EOF
+chmod +x /backup-db.sh
+
 # Create the logrotate definition
 cat << EOF > /etc/logrotate.d/db-backup
 /backup/${DB_NAME}.sql.gz {
@@ -42,14 +54,7 @@ size 0
 nocompress
 create 644 ${ROTATE_USER} ${ROTATE_GROUP}
 postrotate
-sudo -u "${ROTATE_USER}" -g "${ROTATE_GROUP}" \
-mysqldump \
-    -h "${DB_HOST}" \
-    -u ${DB_USER} \
-    -p"${DB_PASSWORD}" \
-    ${MYSQLDUMP_OPTIONS} \
-    "${DB_NAME}" \
-    | gzip > "/backup/${DB_NAME}.sql.gz"
+sudo -u "${ROTATE_USER}" -g "${ROTATE_GROUP}" /backup-db.sh
 endscript
 }
 EOF
