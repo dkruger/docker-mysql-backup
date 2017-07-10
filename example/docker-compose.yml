@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+   mysql:
+     image: mysql:5.7
+     volumes:
+       - db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: password
+       MYSQL_DATABASE: cron_test_db
+       MYSQL_USER: dbuser
+       MYSQL_PASSWORD: password
+
+   cron:
+     links:
+       - mysql:mysql
+     image: dkruger/mysql-backup:latest
+     volumes:
+       - /etc/localtime:/etc/localtime:ro
+       - /tmp/test_db_backup:/backup
+     restart: always
+     environment:
+       DB_HOST: mysql
+       DB_USER: dbuser
+       DB_PASSWORD: password
+       DB_NAME: cron_test_db
+       BACKUP_CRONTAB: "* * * * *"
+
+volumes:
+    db_data:
