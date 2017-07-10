@@ -26,6 +26,8 @@ server, and the backup settings.
 * `BACKUP_CRONTAB`: The crontab time entry, defaults to daily at midnight
 * `MYSQLDUMP_OPTIONS`: Flags passed to `mysqldump`, defaults to
 `--single-transaction`
+* `ROTATE_UID`: The UID to use for creating the backup files, defaults to 0
+* `ROTATE_GID`: The GID to use for creating the backup files, defaults to 0
 
 The image defines a single volume: `/backup` which is used to store the backup
 images.
@@ -42,3 +44,11 @@ docker run \
     -e DB_PASSWORD="securepassword" \
     dkruger/mysql-backup:latest
 ```
+
+## About permissions
+
+The container utilizes `logrotate` to make its backups. Recent versions of
+`logrotate` have become more strict with permissions, requiring that the folder
+not be world-writeable, or if it is be given a user/group to su as. Because of
+this you may need to specify a UID and GID that will have permissions to write
+to the backup directory. Note that these are the ID numbers, not the names.

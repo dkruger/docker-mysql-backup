@@ -7,10 +7,12 @@ ENV \
     DB_NAME="mydb" \
     ROTATE_COUNT="8" \
     BACKUP_CRONTAB="0 0 * * 0" \
-    MYSQLDUMP_OPTIONS="--single-transaction"
+    MYSQLDUMP_OPTIONS="--single-transaction" \
+    ROTATE_UID="0" \
+    ROTATE_GID="0"
 
 RUN set -x; \
-    apk add --no-cache --update logrotate mariadb-client \
+    apk add --no-cache --update logrotate sudo mariadb-client \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/*
 
