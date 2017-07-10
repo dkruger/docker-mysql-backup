@@ -24,6 +24,8 @@ server, and the backup settings.
 * `DB_PASSWORD`: The password for `DB_USER`, defaults to "password"
 * `ROTATE_COUNT`: The number of backup files to keep, defaults to 8
 * `BACKUP_CRONTAB`: The crontab time entry, defaults to daily at midnight
+* `MYSQLDUMP_OPTIONS`: Flags passed to `mysqldump`, defaults to
+`--single-transaction`
 
 The image defines a single volume: `/backup` which is used to store the backup
 images.

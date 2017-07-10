@@ -6,7 +6,8 @@ ENV \
     DB_PASSWORD="password" \
     DB_NAME="mydb" \
     ROTATE_COUNT="8" \
-    BACKUP_CRONTAB="0 0 * * 0"
+    BACKUP_CRONTAB="0 0 * * 0" \
+    MYSQLDUMP_OPTIONS="--single-transaction"
 
 RUN set -x; \
     apk add --no-cache --update logrotate mariadb-client \

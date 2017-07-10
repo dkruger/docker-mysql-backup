@@ -30,7 +30,7 @@ mysqldump \
     -h "${DB_HOST}" \
     -u ${DB_USER} \
     -p"${DB_PASSWORD}" \
-    --single-transaction \
+    ${MYSQLDUMP_OPTIONS} \
     "${DB_NAME}" \
     | gzip > "/backup/${DB_NAME}.sql.gz"
 endscript
