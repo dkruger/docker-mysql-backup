@@ -23,7 +23,7 @@ server, and the backup settings.
 * `DB_USER`: The username for authenticating with `DB_HOST`, defaults to "root"
 * `DB_PASSWORD`: The password for `DB_USER`, defaults to "password"
 * `ROTATE_COUNT`: The number of backup files to keep, defaults to 8
-* `BACKUP_CRONTAB`: The crontab time entry, defaults to daily at midnight
+* `BACKUP_CRONTAB`: The crontab time entry, defaults to weekly
 * `MYSQLDUMP_OPTIONS`: Flags passed to `mysqldump`, defaults to
 `--single-transaction`
 * `ROTATE_UID`: The UID to use for creating the backup files, defaults to 0
